@@ -30,7 +30,7 @@ void getSomeFunWithTreshold(Mat& current, int val)
 int main()
 {
 	VideoCapture sourceMovie = getMyMovie("movies/AnotherTriple.mp4");
-
+	vector <vector<Point>> vectors, hit;
 	
 
 	Mat previousFrame, frame, finalFrame, result1, result2, result3;
@@ -55,16 +55,19 @@ int main()
 		//dilate(result1, result1, Mat(), Point(-1, -1), 1);
 		//morphologyEx(result1, result1, MORPH_OPEN, Mat(),Point(-1,-1),1);
 		//dilate(result1, result1, Mat(), Point(-1, -1), 2);
-		
-		//dilate(result1, result1, Mat());
+
+		findContours(result1, vectors, RETR_LIST, CHAIN_APPROX_SIMPLE);
+		for (int i = 0; i < vectors.size(); i++)
+		{
+			drawContours(finalFrame, vectors, i, Scalar(255, 0, 0), 2);
+		}
 
 		imshow("result1",result1);
 		imshow("frame", frame); 
-
+		imshow("finalFrame", finalFrame);
 		
 		waitKey(0);
 		previousFrame = frame.clone();
 	}
-
 	return 0;
 }
