@@ -33,10 +33,11 @@ int main()
 
 	
 
-	Mat previousFrame, frame, nextFrame, result1, result2, result3;
+	Mat previousFrame, frame, finalFrame, result1, result2, result3;
 	sourceMovie >> previousFrame;
+	finalFrame = previousFrame.clone();
 	cvtColor(previousFrame, previousFrame, COLOR_BGR2GRAY);
-
+	
 	
 	while(1)
 	{
@@ -47,13 +48,14 @@ int main()
 		cvtColor(frame, frame, COLOR_BGR2GRAY);
 		absdiff(frame, previousFrame, result1);
 		getSomeFunWithTreshold(result1, 20);
+		
+		erode(result1, result1, getStructuringElement(MORPH_RECT,Size(4,4)));
+		dilate(result1, result1, getStructuringElement(MORPH_RECT,Size(2,2)));
 		//erode(result1, result1, Mat(), Point(-1, -1), 2);
 		//dilate(result1, result1, Mat(), Point(-1, -1), 1);
-		morphologyEx(result1, result1, MORPH_OPEN, Mat(),Point(-1,-1),1);
+		//morphologyEx(result1, result1, MORPH_OPEN, Mat(),Point(-1,-1),1);
 		//dilate(result1, result1, Mat(), Point(-1, -1), 2);
-		Size tmp = Size(3, 3);
-		medianBlur(result1, result1, 3);
-		GaussianBlur(result1, result1, tmp, 0.7);
+		
 		//dilate(result1, result1, Mat());
 
 		imshow("result1",result1);
