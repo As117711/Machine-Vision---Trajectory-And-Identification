@@ -32,6 +32,8 @@ int main()
 	VideoCapture sourceMovie = getMyMovie("movies/AnotherTriple.mp4");
 	vector <vector<Point>> vectors;
 	vector <int> valuableVectors;
+	vector<Point> contours_poly;
+	Rect boundRect;
 	
 
 	Mat previousFrame, frame, finalFrame, result1, result2, result3;
@@ -61,7 +63,13 @@ int main()
 			if (contourArea(vectors[i]) > 200) {
 				drawContours(finalFrame, vectors, i, Scalar(255, 0, 0), 2);
 				valuableVectors.push_back(i);
-				cout << " " << i;
+				
+				approxPolyDP(Mat(vectors[i]), contours_poly, 3, true);
+				boundRect = boundingRect(Mat(contours_poly));
+				fillConvexPoly(finalFrame, contours_poly, contours_poly.size());
+				rectangle(finalFrame, boundRect.tl(), boundRect.br(), Scalar(125, 250, 125), 2, 8, 0);
+				line(finalFrame, boundRect.tl(), boundRect.br(), Scalar(250, 125, 125), 2, 8, 0);
+				line(finalFrame, Point(boundRect.x + boundRect.width, boundRect.y), Point(boundRect.x, boundRect.y + boundRect.height), Scalar(250, 125, 125), 2, 8, 0);
 			}
 		}
 
