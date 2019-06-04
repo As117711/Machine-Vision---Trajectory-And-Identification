@@ -66,12 +66,10 @@ int main()
 				
 				approxPolyDP(Mat(vectors[i]), contours_poly, 3, true);
 				boundRect = boundingRect(Mat(contours_poly));
-				//fillConvexPoly(finalFrame, contours_poly, contours_poly.size());	Contours Infill
-				//rectangle(finalFrame, boundRect.tl(), boundRect.br(), Scalar(125, 250, 125), 2, 8, 0);
-				/*
-				line(finalFrame, boundRect.tl(), boundRect.br(), Scalar(250, 125, 125), 2, 8, 0);
-				line(finalFrame, Point(boundRect.x + boundRect.width, boundRect.y), Point(boundRect.x, boundRect.y + boundRect.height), Scalar(250, 125, 125), 2, 8, 0);
-				*/
+				
+				cout << "S: " << contours_poly.size()<<" :S";
+
+
 				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 125+i, 125), 3);
 					
 			}
