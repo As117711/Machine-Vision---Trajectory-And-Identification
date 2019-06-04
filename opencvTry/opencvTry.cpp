@@ -49,8 +49,10 @@ int main()
 		getSomeFunWithTreshold(result1, 20);
 		//erode(result1, result1, Mat(), Point(-1, -1), 2);
 		//dilate(result1, result1, Mat(), Point(-1, -1), 1);
-		morphologyEx(result1, result1, MORPH_OPEN, Mat(),Point(-1,-1),3);
-		dilate(result1, result1, Mat(), Point(-1, -1), 2);
+		morphologyEx(result1, result1, MORPH_OPEN, Mat(),Point(-1,-1),1);
+		//dilate(result1, result1, Mat(), Point(-1, -1), 2);
+		Size tmp = Size(3, 3);
+		GaussianBlur(result1, result1, tmp, 0.7);
 		//dilate(result1, result1, Mat());
 
 		imshow("result1",result1);
