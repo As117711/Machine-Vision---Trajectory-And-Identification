@@ -52,6 +52,7 @@ int main()
 		morphologyEx(result1, result1, MORPH_OPEN, Mat(),Point(-1,-1),1);
 		//dilate(result1, result1, Mat(), Point(-1, -1), 2);
 		Size tmp = Size(3, 3);
+		medianBlur(result1, result1, 3);
 		GaussianBlur(result1, result1, tmp, 0.7);
 		//dilate(result1, result1, Mat());
 
