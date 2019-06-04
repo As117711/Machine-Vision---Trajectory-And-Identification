@@ -30,7 +30,8 @@ void getSomeFunWithTreshold(Mat& current, int val)
 int main()
 {
 	VideoCapture sourceMovie = getMyMovie("movies/AnotherTriple.mp4");
-	vector <vector<Point>> vectors, hit;
+	vector <vector<Point>> vectors;
+	vector <int> valuableVectors;
 	
 
 	Mat previousFrame, frame, finalFrame, result1, result2, result3;
@@ -54,10 +55,13 @@ int main()
 		
 
 		findContours(result1, vectors, RETR_LIST, CHAIN_APPROX_SIMPLE);
+		
 		for (int i = 0; i < vectors.size(); i++)
 		{
 			if (contourArea(vectors[i]) > 200) {
 				drawContours(finalFrame, vectors, i, Scalar(255, 0, 0), 2);
+				valuableVectors.push_back(i);
+				cout << " " << i;
 			}
 		}
 
@@ -68,5 +72,11 @@ int main()
 		waitKey(0);
 		previousFrame = frame.clone();
 	}
+
+	for (int i = 0; i < valuableVectors.size(); i++)
+	{
+		cout << " " << valuableVectors[i];
+	}
+	waitKey(0);
 	return 0;
 }
