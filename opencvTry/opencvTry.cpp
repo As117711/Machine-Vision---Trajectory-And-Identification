@@ -61,15 +61,19 @@ int main()
 		for (int i = 0; i < vectors.size(); i++)
 		{
 			if (contourArea(vectors[i]) > 200) {
-				drawContours(finalFrame, vectors, i, Scalar(255, 0, 0), 2);
+				//drawContours(finalFrame, vectors, i, Scalar(255, 0, 0), 2); Contours 
 				valuableVectors.push_back(i);
 				
 				approxPolyDP(Mat(vectors[i]), contours_poly, 3, true);
 				boundRect = boundingRect(Mat(contours_poly));
-				fillConvexPoly(finalFrame, contours_poly, contours_poly.size());
-				rectangle(finalFrame, boundRect.tl(), boundRect.br(), Scalar(125, 250, 125), 2, 8, 0);
+				//fillConvexPoly(finalFrame, contours_poly, contours_poly.size());	Contours Infill
+				//rectangle(finalFrame, boundRect.tl(), boundRect.br(), Scalar(125, 250, 125), 2, 8, 0);
+				/*
 				line(finalFrame, boundRect.tl(), boundRect.br(), Scalar(250, 125, 125), 2, 8, 0);
 				line(finalFrame, Point(boundRect.x + boundRect.width, boundRect.y), Point(boundRect.x, boundRect.y + boundRect.height), Scalar(250, 125, 125), 2, 8, 0);
+				*/
+				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 125+i, 125), 3);
+					
 			}
 		}
 
