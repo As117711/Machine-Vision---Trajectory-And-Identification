@@ -2,11 +2,53 @@
 //
 
 #include "pch.h"
+#include <opencv2/opencv.hpp>
 #include <iostream>
+using namespace std;
+using namespace cv;
+
+VideoCapture getMyMovie(string path)
+{
+	VideoCapture sourceMovie(path);
+	if (sourceMovie.isOpened() == false) {
+		cout << "Your movie source cannot be opened.";
+	}
+	
+	return sourceMovie;
+}
+
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	VideoCapture sourceMovie = getMyMovie("movies/AnotherTriple.mp4");
+
+	Mat previousFrame, frame, nextFrame, result1, result2, result3;
+	sourceMovie >> previousFrame;
+	cvtColor(previousFrame, previousFrame, COLOR_BGR2GRAY);
+
+	while(1)
+	{
+		if (!sourceMovie.read(frame)) { break; }
+
+		sourceMovie >> frame;
+		
+		cvtColor(frame, frame, COLOR_BGR2GRAY);
+		erode(frame, frame, Mat());
+		erode(previousFrame, previousFrame, Mat());
+
+		absdiff(frame, previousFrame, result1);
+		threshold(result1, result1, 20, 255, THRESH_BINARY);
+		erode(result1, result1, Mat());
+		morphologyEx(result1, result1, MORPH_OPEN, Mat());
+		
+
+		imshow("result1",result1);
+		imshow("frame", frame);
+		waitKey(0);
+		previousFrame = frame.clone();
+	}
+
+	return 0;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
