@@ -51,15 +51,14 @@ int main()
 		
 		erode(result1, result1, getStructuringElement(MORPH_RECT,Size(4,4)));
 		dilate(result1, result1, getStructuringElement(MORPH_RECT,Size(2,2)));
-		//erode(result1, result1, Mat(), Point(-1, -1), 2);
-		//dilate(result1, result1, Mat(), Point(-1, -1), 1);
-		//morphologyEx(result1, result1, MORPH_OPEN, Mat(),Point(-1,-1),1);
-		//dilate(result1, result1, Mat(), Point(-1, -1), 2);
+		
 
 		findContours(result1, vectors, RETR_LIST, CHAIN_APPROX_SIMPLE);
 		for (int i = 0; i < vectors.size(); i++)
 		{
-			drawContours(finalFrame, vectors, i, Scalar(255, 0, 0), 2);
+			if (contourArea(vectors[i]) > 100) {
+				drawContours(finalFrame, vectors, i, Scalar(255, 0, 0), 2);
+			}
 		}
 
 		imshow("result1",result1);
