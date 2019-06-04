@@ -77,13 +77,15 @@ int main()
 
 				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 125, 125), 3);
 				circle(finalFrame, pos, 3, Scalar(250, 255, 125), 5);
+				imshow("finalFrame", finalFrame);
+				waitKey(0);
 					
 			}
 		}
 
 		imshow("result1",result1);
 		imshow("frame", frame); 
-		imshow("finalFrame", finalFrame);
+		//imshow("finalFrame", finalFrame);
 		
 		waitKey(0);
 		previousFrame = frame.clone();
