@@ -69,8 +69,11 @@ int main()
 				
 				cout << "S: " << contours_poly.size()<<" :S";
 
+				Moments mu = moments(vectors[i], false);
+				Point pos = Point(mu.m10 / mu.m00, mu.m01 / mu.m00);
 
-				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 125+i, 125), 3);
+				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 125, 125), 3);
+				circle(finalFrame, pos, 3, Scalar(250, 255, 125), 5);
 					
 			}
 		}
