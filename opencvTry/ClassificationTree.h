@@ -17,7 +17,8 @@ public:
 	vector <obj*> Groups;
 	obj* start;
 
-	ClassificationTree();
+	ClassificationTree(); //Vector last points w konstruktorze? I odleg³oœci¹
+	//sprawdzaæ poprzednie grupy i ³¹czyæ liniê trajektori¹?
 	void AddPoint(Point newPoint);
 	int calculateDistance(Point x, Point y);
 	void climbTheTree(Point newPoint, obj* actual);
