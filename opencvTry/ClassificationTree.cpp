@@ -37,6 +37,7 @@ void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 			actual->external->point = newPoint;
 			actual->external->group = actual->group+1;
 			Groups.push_back(actual->external);
+			cout << "\nNew External Added: " << newPoint << " Group: " << actual->external->group << " \n";
 		}
 		else
 		{
@@ -50,7 +51,7 @@ void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 			actual->internal = new obj();
 			actual->internal->point = newPoint;
 			actual->internal->group = actual->group;
-			
+			cout << "\nNew Internal Added: " << newPoint << " Group: " << actual->internal->group << " \n";
 		}
 		else
 		{
