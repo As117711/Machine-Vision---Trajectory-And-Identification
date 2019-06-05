@@ -61,6 +61,26 @@ void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 	}
 }
 
+int ClassificationTree::getGroupsSize()
+{
+	return Groups.size();
+}
+
+vector<Point> ClassificationTree::getPointsFromGroupById(int id)
+{
+	vector <Point> tmp;
+	obj* actual = Groups[id];
+	tmp.push_back(actual->point);
+	while (actual->internal != NULL)
+	{
+		actual = actual->internal;
+		tmp.push_back(actual->point);
+		//TODO Check If We Do Not Lose The Last One Or Externals
+	}
+	
+	return tmp;
+}
+
 
 ClassificationTree::~ClassificationTree()
 {

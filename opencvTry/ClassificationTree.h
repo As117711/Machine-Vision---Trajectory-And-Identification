@@ -21,6 +21,9 @@ public:
 	void AddPoint(Point newPoint);
 	int calculateDistance(Point x, Point y);
 	void climbTheTree(Point newPoint, obj* actual);
+	int getGroupsSize();
+	vector <Point> getPointsFromGroupById(int id);
+
 	~ClassificationTree();
 };
 
