@@ -35,13 +35,34 @@ int ClassificationTree::calculateDistance(Point x, Point y)
 
 void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 {
-	if (calculateDistance(newPoint, start->point) > 400)
+	if (calculateDistance(newPoint, actual->point) > 400)
 	{
-
+		if (actual->external == NULL)
+		{
+			actual->external = new obj();
+			actual->external->point = newPoint;
+			actual->external->group = actual->group+1;
+			Groups.push_back(actual->external);
+		}
+		else
+		{
+			climbTheTree(newPoint, actual->external);
+		}
 	}
 	else
 	{
-
+		if (actual->internal == NULL)
+		{
+			actual->internal = new obj();
+			actual->internal->point = newPoint;
+			actual->internal->group = actual->group;
+			
+		}
+		else
+		{
+			climbTheTree(newPoint, actual->internal);
+			//TODO: Check If We Don't Lose Points Here
+		}
 	}
 }
 
