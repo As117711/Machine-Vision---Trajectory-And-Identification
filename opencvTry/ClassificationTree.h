@@ -4,6 +4,13 @@
 using namespace std;
 using namespace cv;
 
+struct obj {
+	Point point;
+	obj* internal;
+	obj* external;
+	int group;
+};
+
 class ClassificationTree
 {
 public:

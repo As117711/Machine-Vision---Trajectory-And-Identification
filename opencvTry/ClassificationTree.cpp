@@ -1,12 +1,6 @@
 #include "pch.h"
 #include "ClassificationTree.h"
 
-struct obj {
-	Point point;
-	obj* internal;
-	obj* external;
-	int group;
-};
 
 
 ClassificationTree::ClassificationTree()
