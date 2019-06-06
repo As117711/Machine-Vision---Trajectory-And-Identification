@@ -25,6 +25,8 @@ public:
 	int getGroupsSize();
 	vector <Point> getPointsFromGroupById(int id);
 
+	void ClearMyPoints(obj * current);
+
 	~ClassificationTree();
 };
 

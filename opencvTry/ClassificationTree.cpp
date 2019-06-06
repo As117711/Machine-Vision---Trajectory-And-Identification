@@ -29,7 +29,7 @@ int ClassificationTree::calculateDistance(Point x, Point y)
 
 void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 {
-	if (calculateDistance(newPoint, actual->point) > 200)
+	if (calculateDistance(newPoint, actual->point) > 600)
 	{
 		if (actual->external == NULL)
 		{
@@ -63,7 +63,7 @@ void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 
 int ClassificationTree::getGroupsSize()
 {
-	return Groups.size();
+	return static_cast<int>(Groups.size());
 }
 
 vector<Point> ClassificationTree::getPointsFromGroupById(int id)
@@ -81,6 +81,12 @@ vector<Point> ClassificationTree::getPointsFromGroupById(int id)
 	return tmp;
 }
 
+void ClassificationTree::ClearMyPoints(obj* current)
+{
+	ClearMyPoints(current->external);
+	ClearMyPoints(current->internal);
+	delete current;
+}
 
 ClassificationTree::~ClassificationTree()
 {

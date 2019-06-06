@@ -78,10 +78,10 @@ int main()
 				line(finalFrame, boundRect.tl(), boundRect.br(), Scalar(250, 125, 125), 2, 8, 0);
 				line(finalFrame, Point(boundRect.x + boundRect.width, boundRect.y), Point(boundRect.x, boundRect.y + boundRect.height), Scalar(250, 125, 125), 2, 8, 0);
 				*/
-				//circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 125, 125), 3);
-				circle(finalFrame, pos, 3, Scalar(250, 255, 125), 5);
+				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 255, 125), 3);
+				//circle(finalFrame, pos, 3, Scalar(250, 255, 125), 5);
 
-				Tree->AddPoint(pos);
+				Tree->AddPoint(Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2));
 
 				//imshow("finalFrame", finalFrame);
 				waitKey(0);
@@ -95,7 +95,7 @@ int main()
 			vector <Point> actual = Tree->getPointsFromGroupById(i),test;
 			approxPolyDP(Mat(actual), test, 3, true);
 			boundRect = boundingRect(Mat(test));
-			circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 125, 125), 3);
+			circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3+i, Scalar(250, 125, 125), 3);
 			
 			imshow("finalFrame", finalFrame);
 			
