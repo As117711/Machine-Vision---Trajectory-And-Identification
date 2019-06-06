@@ -95,9 +95,9 @@ int main()
 			vector <Point> actual = Tree->getPointsFromGroupById(i),test;
 			approxPolyDP(Mat(actual), test, 3, true);
 			boundRect = boundingRect(Mat(test));
-			Moments mu = moments(vectors[i], false);
+			Moments mu = moments(actual, false);
 			Point pos = Point(mu.m10 / mu.m00, mu.m01 / mu.m00);
-			circle(finalFrame, pos, 3, Scalar(255, 255, 255), 5);
+			circle(finalFrame, pos, 3, Scalar(0, 0, 0), 5);
 			imshow("finalFrame", finalFrame);
 			
 		}
