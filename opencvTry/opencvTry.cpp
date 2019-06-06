@@ -59,6 +59,7 @@ int main()
 
 		findContours(result1, vectors, RETR_LIST, CHAIN_APPROX_SIMPLE);
 		
+
 		for (int i = 0; i < vectors.size(); i++)
 		{
 			if (contourArea(vectors[i]) > 200) {
