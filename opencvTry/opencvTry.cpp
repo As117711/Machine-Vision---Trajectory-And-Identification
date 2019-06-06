@@ -74,16 +74,16 @@ int main()
 
 				Moments mu = moments(vectors[i], false);
 				Point pos = Point(mu.m10 / mu.m00, mu.m01 / mu.m00);
-				rectangle(finalFrame, boundRect.tl(), boundRect.br(), Scalar(125, 250, 125), 2, 8, 0);
+				/*rectangle(finalFrame, boundRect.tl(), boundRect.br(), Scalar(125, 250, 125), 2, 8, 0);
 				line(finalFrame, boundRect.tl(), boundRect.br(), Scalar(250, 125, 125), 2, 8, 0);
 				line(finalFrame, Point(boundRect.x + boundRect.width, boundRect.y), Point(boundRect.x, boundRect.y + boundRect.height), Scalar(250, 125, 125), 2, 8, 0);
-
-				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 125, 125), 3);
+				*/
+				//circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 125, 125), 3);
 				circle(finalFrame, pos, 3, Scalar(250, 255, 125), 5);
 
 				Tree->AddPoint(pos);
 
-				imshow("finalFrame", finalFrame);
+				//imshow("finalFrame", finalFrame);
 				waitKey(0);
 
 			}
@@ -97,7 +97,7 @@ int main()
 			boundRect = boundingRect(Mat(test));
 			Moments mu = moments(actual, false);
 			Point pos = Point(mu.m10 / mu.m00, mu.m01 / mu.m00);
-			circle(finalFrame, pos, 3, Scalar(0, 0, 0), 5);
+			circle(finalFrame, pos, 5, Scalar(0+i*50, 0+i*50, 0+i*50), 5);
 			imshow("finalFrame", finalFrame);
 			
 		}
