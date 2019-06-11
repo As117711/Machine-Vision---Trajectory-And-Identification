@@ -91,7 +91,7 @@ int main()
 					line(finalFrame, *previousPoint[groupDestination], *actualPoint,Scalar(255,255,255),3);
 				}
 				cout << "\nCheck : " << check << " groupDestination: " << groupDestination << "\n";
-				if (check < groupDestination)
+				if (check > groupDestination || previousPoint.empty())
 				{
 					cout << "Yeah!";
 					previousPoint.push_back(actualPoint);
@@ -99,7 +99,8 @@ int main()
 				else
 				{
 					cout << "NOT"; //Here it is.
-					previousPoint[groupDestination] = actualPoint;
+					if (previousPoint.empty()) { previousPoint.push_back(actualPoint); }
+					else { previousPoint[groupDestination - 1] = actualPoint; }
 
 				}
 				
