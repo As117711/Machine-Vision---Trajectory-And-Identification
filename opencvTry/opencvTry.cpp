@@ -61,7 +61,8 @@ int main()
 
 		ClassificationTree* Tree = new ClassificationTree();
 
-		Point previousPoint=Point(0,0), actualPoint;
+		vector<Point*> previousPoint;
+		Point* actualPoint;
 
 		for (int i = 0; i < vectors.size(); i++)
 		{
@@ -82,13 +83,26 @@ int main()
 				*/
 				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 255, 125), 3);
 				//circle(finalFrame, pos, 3, Scalar(250, 255, 125), 5);
-				actualPoint = Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2);
-				Tree->AddPoint(Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2));
-				if (previousPoint != Point(0,0))
+				actualPoint = new Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2);
+				int check = Tree->getGroupsSize();
+				int groupDestination = Tree->AddPoint(Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2));
+				if (!previousPoint.empty())
 				{
-					line(finalFrame, previousPoint, actualPoint,Scalar(255,255,255),3);
+					line(finalFrame, *previousPoint[groupDestination], *actualPoint,Scalar(255,255,255),3);
 				}
-				previousPoint = actualPoint;
+				cout << "\nCheck : " << check << " groupDestination: " << groupDestination << "\n";
+				if (check < groupDestination)
+				{
+					cout << "Yeah!";
+					previousPoint.push_back(actualPoint);
+				}
+				else
+				{
+					cout << "NOT"; //Here it is.
+					previousPoint[groupDestination] = actualPoint;
+
+				}
+				
 				//imshow("finalFrame", finalFrame);
 				waitKey(0);
 

@@ -7,7 +7,7 @@ ClassificationTree::ClassificationTree()
 {
 }
 
-void ClassificationTree::AddPoint(Point newPoint)
+int ClassificationTree::AddPoint(Point newPoint)
 {
 	if (start == NULL)
 	{ 
@@ -15,10 +15,13 @@ void ClassificationTree::AddPoint(Point newPoint)
 		start->point = newPoint;
 		start->group = 1;
 		Groups.push_back(start);
+		groupCounter++;
+		return 1;
 	}
 	else
 	{
-		climbTheTree(newPoint, start);
+		int result = climbTheTree(newPoint, start);
+		return result;
 	}
 }
 
@@ -27,7 +30,7 @@ int ClassificationTree::calculateDistance(Point x, Point y)
 	return sqrt((y.y-x.y)^2+(y.x-x.x)^2);
 }
 
-void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
+int ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 {
 	int distance = calculateDistance(newPoint, actual->point);
 	cout <<"\nDistance: "<<distance<<"\n";
@@ -40,6 +43,8 @@ void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 			actual->external->group = actual->group+1;
 			Groups.push_back(actual->external);
 			cout << "\nNew External Added: " << newPoint << " Group: " << actual->external->group << " \n";
+			groupCounter++;
+			return actual->group + 1;
 		}
 		else
 		{
@@ -54,6 +59,7 @@ void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 			actual->internal->point = newPoint;
 			actual->internal->group = actual->group;
 			cout << "\nNew Internal Added: " << newPoint << " Group: " << actual->internal->group << " \n";
+			return actual->group;
 		}
 		else
 		{
@@ -65,7 +71,7 @@ void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 
 int ClassificationTree::getGroupsSize()
 {
-	return static_cast<int>(Groups.size());
+	return groupCounter;
 }
 
 vector<Point> ClassificationTree::getPointsFromGroupById(int id)

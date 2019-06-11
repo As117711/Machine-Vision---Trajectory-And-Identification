@@ -16,12 +16,13 @@ class ClassificationTree
 public:
 	vector <obj*> Groups;
 	obj* start;
+	int groupCounter = 0;
 
 	ClassificationTree(); //Vector last points w konstruktorze? I odleg³oœci¹
 	//sprawdzaæ poprzednie grupy i ³¹czyæ liniê trajektori¹?
-	void AddPoint(Point newPoint);
+	int AddPoint(Point newPoint);
 	int calculateDistance(Point x, Point y);
-	void climbTheTree(Point newPoint, obj* actual);
+	int climbTheTree(Point newPoint, obj* actual);
 	int getGroupsSize();
 	vector <Point> getPointsFromGroupById(int id);
 
