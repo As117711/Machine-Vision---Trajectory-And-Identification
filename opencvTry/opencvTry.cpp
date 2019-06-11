@@ -60,9 +60,10 @@ int main()
 		findContours(result1, vectors, RETR_LIST, CHAIN_APPROX_SIMPLE);
 
 		ClassificationTree* Tree = new ClassificationTree();
+		ClassificationTree* Tree2 = new ClassificationTree();
 
-		vector<Point*> previousPoint;
-		Point* actualPoint;
+		Point previousPoint=Point(0,0);
+		Point actualPoint;
 
 		for (int i = 0; i < vectors.size(); i++)
 		{
@@ -83,27 +84,15 @@ int main()
 				*/
 				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 255, 125), 3);
 				//circle(finalFrame, pos, 3, Scalar(250, 255, 125), 5);
-				actualPoint = new Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2);
+				actualPoint = Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2);
 				int check = Tree->getGroupsSize();
 				int groupDestination = Tree->AddPoint(Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2));
-				if (!previousPoint.empty())
+				if (previousPoint!=Point(0,0))
 				{
-					line(finalFrame, *previousPoint[groupDestination], *actualPoint,Scalar(255,255,255),3);
+					//line(finalFrame, previousPoint,actualPoint,Scalar(255,255,255),3);
 				}
-				cout << "\nCheck : " << check << " groupDestination: " << groupDestination << "\n";
-				if (check > groupDestination || previousPoint.empty())
-				{
-					cout << "Yeah!";
-					previousPoint.push_back(actualPoint);
-				}
-				else
-				{
-					cout << "NOT"; //Here it is.
-					if (previousPoint.empty()) { previousPoint.push_back(actualPoint); }
-					else { previousPoint[groupDestination - 1] = actualPoint; }
+				previousPoint = actualPoint;
 
-				}
-				
 				//imshow("finalFrame", finalFrame);
 				waitKey(0);
 
@@ -113,13 +102,31 @@ int main()
 		int counter = Tree->getGroupsSize();
 		for (int i = 0; i < counter; i++)
 		{
+			
 			vector <Point> actual = Tree->getPointsFromGroupById(i),test;
 			approxPolyDP(Mat(actual), test, 3, true);
 			boundRect = boundingRect(Mat(test));
 			circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3+i, Scalar(250, 125, 125), 3);
+			Tree2->AddPoint(Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2));
 			
+
+			//imshow("finalFrame", finalFrame);
+			
+		}
+
+		int counter2 = Tree2->getGroupsSize();
+		for (int i = 0; i < counter2; i++)
+		{
+
+			vector <Point> actual = Tree2->getPointsFromGroupById(i), test;
+			
+			for (int j = 1; j < actual.size()-1; j++)
+			{
+				line(finalFrame, actual[i - 1], actual[i], 3);
+			}
+
 			imshow("finalFrame", finalFrame);
-			
+
 		}
 
 		//imshow("result1",result1);
