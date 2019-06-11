@@ -61,6 +61,8 @@ int main()
 
 		ClassificationTree* Tree = new ClassificationTree();
 
+		Point previousPoint=Point(0,0), actualPoint;
+
 		for (int i = 0; i < vectors.size(); i++)
 		{
 			if (contourArea(vectors[i]) > 200) {
@@ -80,9 +82,13 @@ int main()
 				*/
 				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 255, 125), 3);
 				//circle(finalFrame, pos, 3, Scalar(250, 255, 125), 5);
-
+				actualPoint = Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2);
 				Tree->AddPoint(Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2));
-
+				if (previousPoint != Point(0,0))
+				{
+					line(finalFrame, previousPoint, actualPoint,Scalar(255,255,255),3);
+				}
+				previousPoint = actualPoint;
 				//imshow("finalFrame", finalFrame);
 				waitKey(0);
 
