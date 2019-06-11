@@ -29,7 +29,9 @@ int ClassificationTree::calculateDistance(Point x, Point y)
 
 void ClassificationTree::climbTheTree(Point newPoint, obj * actual)
 {
-	if (calculateDistance(newPoint, actual->point) > 600)
+	int distance = calculateDistance(newPoint, actual->point);
+	cout <<"\nDistance: "<<distance<<"\n";
+	if (distance > 10 || distance<-1000000)
 	{
 		if (actual->external == NULL)
 		{
