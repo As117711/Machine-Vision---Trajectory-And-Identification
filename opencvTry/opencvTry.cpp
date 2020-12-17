@@ -2,10 +2,15 @@
 //
 
 #include "pch.h"
+#include "ClassificationTree.h"
 #include <opencv2/opencv.hpp>
 #include <iostream>
 using namespace std;
 using namespace cv;
+
+int bins = 1;
+/// Function Headers
+void median(int, void*);
 
 VideoCapture getMyMovie(string path)
 {
@@ -26,42 +31,100 @@ void getSomeFunWithTreshold(Mat& current, int val)
 int main()
 {
 	VideoCapture sourceMovie = getMyMovie("movies/AnotherTriple.mp4");
+	vector <vector<Point>> vectors;
+	vector <int> valuableVectors;
+	vector<Point> contours_poly;
+	Rect boundRect;
+	
 
-	Mat previousFrame, frame, nextFrame, result1, result2, result3;
+	Mat previousFrame, frame, finalFrame, result1, result2, result3;
 	sourceMovie >> previousFrame;
+	finalFrame = previousFrame.clone();
 	cvtColor(previousFrame, previousFrame, COLOR_BGR2GRAY);
-
-	while(1)
+	
+	
+	while (1)
 	{
 		if (!sourceMovie.read(frame)) { break; }
 
 		sourceMovie >> frame;
-		
+
 		cvtColor(frame, frame, COLOR_BGR2GRAY);
 		absdiff(frame, previousFrame, result1);
 		getSomeFunWithTreshold(result1, 20);
-		//erode(result1, result1, Mat(), Point(-1, -1), 2);
-		//dilate(result1, result1, Mat(), Point(-1, -1), 1);
-		morphologyEx(result1, result1, MORPH_OPEN, Mat(),Point(-1,-1),3);
-		dilate(result1, result1, Mat(), Point(-1, -1), 2);
-		//dilate(result1, result1, Mat());
 
-		imshow("result1",result1);
-		imshow("frame", frame);
+		erode(result1, result1, getStructuringElement(MORPH_RECT, Size(4, 4)));
+		dilate(result1, result1, getStructuringElement(MORPH_RECT, Size(2, 2)));
+
+
+		findContours(result1, vectors, RETR_LIST, CHAIN_APPROX_SIMPLE);
+
+		ClassificationTree* Tree = new ClassificationTree();
+		
+		Point previousPoint=Point(0,0);
+		Point actualPoint;
+
+		for (int i = 0; i < vectors.size(); i++)
+		{
+			if (contourArea(vectors[i]) > 200) {
+				//drawContours(finalFrame, vectors, i, Scalar(255, 0, 0), 2); Contours 
+				valuableVectors.push_back(i);
+
+				approxPolyDP(Mat(vectors[i]), contours_poly, 3, true);
+				boundRect = boundingRect(Mat(contours_poly));
+
+				cout << "S: " << contours_poly.size() << " :S";
+
+				Moments mu = moments(vectors[i], false);
+				Point pos = Point(mu.m10 / mu.m00, mu.m01 / mu.m00);
+				/*rectangle(finalFrame, boundRect.tl(), boundRect.br(), Scalar(125, 250, 125), 2, 8, 0);
+				line(finalFrame, boundRect.tl(), boundRect.br(), Scalar(250, 125, 125), 2, 8, 0);
+				line(finalFrame, Point(boundRect.x + boundRect.width, boundRect.y), Point(boundRect.x, boundRect.y + boundRect.height), Scalar(250, 125, 125), 2, 8, 0);
+				*/
+				circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3, Scalar(250, 255, 125), 3);
+				//circle(finalFrame, pos, 3, Scalar(250, 255, 125), 5);
+				actualPoint = Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2);
+				int check = Tree->getGroupsSize();
+				int groupDestination = Tree->AddPoint(Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2));
+				if (previousPoint!=Point(0,0))
+				{
+					//line(finalFrame, previousPoint,actualPoint,Scalar(255,255,255),3);
+				}
+				previousPoint = actualPoint;
+
+				//imshow("finalFrame", finalFrame);
+				waitKey(0);
+
+			}
+		}
+
+		
+		int counter = Tree->getGroupsSize();
+		for (int i = 0; i < counter; i++)
+		{
+			
+			vector <Point> actual = Tree->getPointsFromGroupById(i),test;
+			approxPolyDP(Mat(actual), test, 3, true);
+			boundRect = boundingRect(Mat(test));
+			circle(finalFrame, Point(boundRect.x + boundRect.width / 2, boundRect.y + boundRect.height / 2), 3+i, Scalar(250, 125, 125), 3);
+			
+			imshow("finalFrame", finalFrame);
+			
+		}
+		
+
+		//imshow("result1",result1);
+		//imshow("frame", frame); 
+		//imshow("finalFrame", finalFrame);
+		
 		waitKey(0);
 		previousFrame = frame.clone();
 	}
 
+	for (int i = 0; i < valuableVectors.size(); i++)
+	{
+		cout << " " << valuableVectors[i];
+	}
+	waitKey(0);
 	return 0;
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
